@@ -1,5 +1,5 @@
 ---
-name: ai-news-skill
+name: ai-news
 description: Scan for the latest AI industry news on demand. Covers M&A, funding, product launches, model releases, AI engineering tools, research, regulation, partnerships, and open source from Brave Search, Hacker News, and more.
 metadata: {"openclaw":{"emoji":"📰"}}
 ---
