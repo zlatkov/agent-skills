@@ -25,7 +25,16 @@ Classify every item into exactly one of these categories:
 | **Open Source** | Notable open source releases, community projects, permissive model weights |
 | **Industry** | Layoffs, hiring trends, market analysis, earnings, other business news |
 
-## Step 1: Search Brave
+## Step 1: Search Hacker News
+
+Fetch the Hacker News front page and recent AI-related stories:
+
+1. Use WebFetch on `https://hn.algolia.com/api/v1/search?query=AI+LLM+artificial+intelligence&tags=story&hitsPerPage=50` — extract titles, URLs, points, and comment counts.
+2. If the user specified a topic, also search: `https://hn.algolia.com/api/v1/search?query=<USER_TOPIC>&tags=story&hitsPerPage=30`
+3. For each result, capture: **title**, **URL** (the actual article link, not the HN discussion URL), **points**, **comment count**, and **HN discussion link** (`https://news.ycombinator.com/item?id={objectID}`).
+4. Prioritize stories with **50+ points** — they represent community-validated signal.
+
+## Step 2: Search Brave
 
 Run these searches using Brave Search. If the user provided a specific topic, add a focused query for it.
 
@@ -49,14 +58,6 @@ Discard results that are clearly:
 - Duplicate content from different domains covering the same story
 - Listicles or generic "top 10 AI tools" content (unless specifically requested)
 - Sponsored/advertisement content
-
-## Step 2: Search Hacker News
-
-Fetch the Hacker News front page and recent AI-related stories:
-
-1. Use WebFetch on `https://hn.algolia.com/api/v1/search?query=AI+LLM+artificial+intelligence&tags=story&hitsPerPage=20` — extract titles, URLs, points, and comment counts.
-2. If the user specified a topic, also search: `https://hn.algolia.com/api/v1/search?query=<USER_TOPIC>&tags=story&hitsPerPage=15`
-3. Prioritize stories with **50+ points** — they represent community-validated signal.
 
 ## Step 3: Check Additional Sources (if configured)
 
@@ -109,7 +110,7 @@ Format the output as follows:
 - **[Score/10]** {Title}
   {One-sentence summary of why it matters}
   Source: {domain} · [Link]({url})
-  {If also on HN: "HN: {points} pts, {comments} comments"}
+  {If from HN: "HN: {points} pts · [{comments} comments]({hn_discussion_link})"}
 
 ### {Next Category} ...
 
