@@ -1,6 +1,6 @@
 # Agent Skills
 
-A collection of skills for agents, built for [OpenClaw / skills.sh](https://skills.sh).
+A collection of skills for agents, built for [skills.sh](https://skills.sh).
 
 Skills are packaged instructions and scripts that extend agent capabilities. Each skill lives in its own directory under `skills/` and follows the [agentskills.io](https://agentskills.io) format.
 
