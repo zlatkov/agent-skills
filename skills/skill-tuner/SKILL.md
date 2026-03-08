@@ -1,14 +1,14 @@
 ---
-name: skill-memory
+name: skill-tuner
 description: >
   Capture and recall user corrections and feedback for any skill. After a skill is used, detect feedback signals and persist them as learned instructions so future invocations automatically improve. No manual configuration needed.
 
-  TRIGGER when: always active — runs passively after any skill execution to detect feedback. Can also be invoked directly: "What have you learned about {skill}?", "Forget that instruction for {skill}", "Show skill memory", "Clear skill memory for {skill}"
+  TRIGGER when: always active — runs passively after any skill execution to detect feedback. Can also be invoked directly: "What have you learned about {skill}?", "Forget that instruction for {skill}", "Show skill tuning", "Clear skill tuning for {skill}"
 
 metadata: {"openclaw":{"emoji":"🧠"}}
 ---
 
-# Skill Memory
+# Skill Tuner
 
 You are a feedback-capture system that improves skill usage over time. You observe interactions after any skill runs, detect user corrections and feedback, and persist them as learned instructions for future use.
 
@@ -27,15 +27,15 @@ You are a feedback-capture system that improves skill usage over time. You obser
 
 ## Storage Location
 
-Resolve the memory directory using this priority:
+Resolve the storage directory using this priority:
 
-1. **`SKILL_MEMORY_DIR` environment variable** — if set, use it as-is. Use this for persistent storage on deployed environments.
-2. **Project root fallback** — if the env var is not set, use `.skill-memory/` relative to the current working directory.
+1. **`SKILL_TUNER_DIR` environment variable** — if set, use it as-is. Use this for persistent storage on deployed environments.
+2. **Project root fallback** — if the env var is not set, use `.skill-tuner/` relative to the current working directory.
 
 Once resolved, the directory structure is:
 
 ```
-{skill-memory-dir}/
+{skill-tuner-dir}/
   {skill-name}.md        # per-skill learned instructions
   config.json            # optional limit overrides
 ```
@@ -47,7 +47,7 @@ Add the resolved path to `.gitignore` if it falls inside the repo — memory fil
 Each skill gets its own file:
 
 ```markdown
-# Skill Memory: {skill-name}
+# Skill Tuner: {skill-name}
 
 ## Learned
 
@@ -88,7 +88,7 @@ When a file exceeds the limit:
 Limits can be overridden per-skill or globally via a config file at:
 
 ```
-{skill-memory-dir}/config.json
+{skill-tuner-dir}/config.json
 ```
 
 Schema:
@@ -127,20 +127,20 @@ When you detect feedback after a skill runs:
 
 When a skill is about to run:
 
-1. Resolve the memory directory (see [Storage Location](#storage-location)) and check if `{skill-memory-dir}/{skill-name}.md` exists.
+1. Resolve the storage directory (see [Storage Location](#storage-location)) and check if `{skill-tuner-dir}/{skill-name}.md` exists.
 2. If it does, read all entries.
 3. Apply the learned instructions as additional constraints for the skill execution.
-4. Do not mention the memory system to the user unless asked — just silently apply the instructions.
+4. Do not mention the tuning system to the user unless asked — just silently apply the instructions.
 
 ### Direct Invocation
 
-Users can interact with the memory system directly:
+Users can interact with the tuning system directly:
 
 - **"What have you learned about {skill}?"** — Read and display the memory file.
 - **"Forget {specific instruction} for {skill}"** — Remove a specific entry.
-- **"Clear skill memory for {skill}"** — Delete the memory file entirely.
-- **"Clear all skill memory"** — Delete all memory files.
-- **"Show skill memory"** — List all skills that have memory files and their entry counts.
+- **"Clear skill tuning for {skill}"** — Delete the memory file entirely.
+- **"Clear all skill tuning"** — Delete all memory files.
+- **"Show skill tuning"** — List all skills that have memory files and their entry counts.
 
 ## Feedback Detection Signals
 
@@ -167,7 +167,7 @@ Be conservative — only capture clear, intentional corrections. Do not memorize
 
 ## Important Guidelines
 
-- **Privacy**: Memory files are local only (the memory directory should be gitignored if inside the repo). They are never committed or shared.
+- **Privacy**: Memory files are local only (the storage directory should be gitignored if inside the repo). They are never committed or shared.
 - **Transparency**: When asked, always show what is stored. Never hide entries from the user.
 - **Minimal footprint**: Each entry should be one line. Avoid verbose descriptions.
 - **No hallucination**: Only record what the user actually said or clearly implied. Do not infer instructions from silence.

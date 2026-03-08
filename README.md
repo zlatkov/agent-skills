@@ -9,7 +9,7 @@ Skills are packaged instructions that extend agent capabilities. Each skill live
 | Skill | Description |
 |-------|-------------|
 | [ai-news](skills/ai-news) | Scan for the latest AI industry news on demand. Covers M&A, funding, product launches, model releases, AI engineering tools, research, regulation, partnerships, and open source. |
-| [skill-memory](skills/skill-memory) | Capture and recall user preferences, feedback, and corrections for any skill. Improves skill usage over time by learning from interactions. |
+| [skill-tuner](skills/skill-tuner) | Capture and recall user corrections and feedback for any skill. Improves skill usage over time by learning from interactions. |
 
 ## Structure
 
@@ -17,7 +17,7 @@ Skills are packaged instructions that extend agent capabilities. Each skill live
 skills/
   ai-news/
     SKILL.md          # Skill definition and instructions
-  skill-memory/
+  skill-tuner/
     SKILL.md          # Skill definition and instructions
 ```
 
