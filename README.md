@@ -2,13 +2,14 @@
 
 A collection of skills for agents, built for [skills.sh](https://skills.sh).
 
-Skills are packaged instructions and scripts that extend agent capabilities. Each skill lives in its own directory under `skills/` and follows the [agentskills.io](https://agentskills.io) format.
+Skills are packaged instructions that extend agent capabilities. Each skill lives in its own directory under `skills/` and follows the [agentskills.io](https://agentskills.io) format.
 
 ## Skills
 
 | Skill | Description |
 |-------|-------------|
 | [ai-news](skills/ai-news) | Scan for the latest AI industry news on demand. Covers M&A, funding, product launches, model releases, AI engineering tools, research, regulation, partnerships, and open source. |
+| [skill-memory](skills/skill-memory) | Capture and recall user preferences, feedback, and corrections for any skill. Improves skill usage over time by learning from interactions. |
 
 ## Structure
 
@@ -16,13 +17,11 @@ Skills are packaged instructions and scripts that extend agent capabilities. Eac
 skills/
   ai-news/
     SKILL.md          # Skill definition and instructions
+  skill-memory/
+    SKILL.md          # Skill definition and instructions
 ```
 
-Each skill directory contains:
-
-- **SKILL.md** — Agent instructions with frontmatter metadata
-- **scripts/** — Optional automation helpers
-- **references/** — Optional supporting documentation
+Each skill directory contains a **SKILL.md** — agent instructions with frontmatter metadata.
 
 ## Adding a New Skill
 
