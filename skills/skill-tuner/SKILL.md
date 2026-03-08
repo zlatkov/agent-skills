@@ -36,7 +36,6 @@ When a user responds to a skill's output with a correction or forward-looking in
 ## Learned
 
 - [YYYY-MM-DD] {concise, actionable instruction}
-- [YYYY-MM-DD] {concise, actionable instruction}
 ```
 
 5. Confirm to the user: *"Noted: {instruction}. I'll apply this next time."*
