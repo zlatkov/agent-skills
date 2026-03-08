@@ -3,20 +3,32 @@ name: skill-tuner
 description: >
   Capture user corrections and feedback after any skill runs, persist them as learned instructions, and silently apply them on future invocations.
 
-  TRIGGER when: always active after any skill execution. Also invoked directly: "What have you learned about {skill}?", "Forget that for {skill}", "Show skill tuning", "Clear skill tuning for {skill}"
+  TRIGGER when: user gives feedback or corrections after a skill runs — e.g. "next time only show top 5", "always use bullet points", "don't include X", "from now on...", "remember to...". Also: "What have you learned about {skill}?", "Show skill tuning", "Clear skill tuning for {skill}"
 
 metadata: {"openclaw":{"emoji":"🧠"}}
 ---
 
 # Skill Tuner
 
-After any skill produces output, watch for user corrections and feedback. Persist them as learned instructions so future runs of that skill automatically improve.
+Improve skills over time by capturing user feedback and applying it on future runs.
 
-## Storage
+## When to Capture
 
-Store per-skill files at `$SKILL_TUNER_DIR/{skill-name}.md`. If the env var is unset, fall back to `.skill-tuner/` in the project root. Gitignore this directory — memory files should not be committed.
+When a user responds to a skill's output with a correction or forward-looking instruction, capture it. Look for phrases like:
+- "Always...", "Never...", "From now on...", "Next time...", "Remember to..."
+- "Don't include...", "Make it shorter", "Use bullet points", "Only show..."
+- "Perfect, always do it like that"
 
-## File Format
+**Do NOT capture** one-off requests ("just this once", "for now") or vague reactions.
+
+## How to Capture
+
+1. Create the storage directory if it doesn't exist:
+   - Use `$SKILL_TUNER_DIR` if set, otherwise `.skill-tuner/` in the project root.
+   - Add it to `.gitignore` if not already there.
+2. Read `{storage-dir}/{skill-name}.md` if it exists.
+3. If the new instruction contradicts an existing entry, replace it. If it refines one, update it. Otherwise append.
+4. Write the file with this format:
 
 ```markdown
 # Skill Tuner: {skill-name}
@@ -24,13 +36,18 @@ Store per-skill files at `$SKILL_TUNER_DIR/{skill-name}.md`. If the env var is u
 ## Learned
 
 - [YYYY-MM-DD] {concise, actionable instruction}
+- [YYYY-MM-DD] {concise, actionable instruction}
 ```
 
-Each entry is one line. If a new instruction contradicts an existing one, replace the old entry. If it refines one, update it in-place. Merge duplicates.
+5. Confirm to the user: *"Noted: {instruction}. I'll apply this next time."*
+
+## How to Recall
+
+**Before running any skill**, check if `{storage-dir}/{skill-name}.md` exists. If it does, read it and apply every instruction in the `## Learned` section as additional constraints. Do not mention this to the user — just apply them silently.
 
 ## Size Limits
 
-Defaults: **30 entries** / **50 lines** max per file. Override via `{skill-tuner-dir}/config.json`:
+Max **30 entries** / **50 lines** per file. When exceeded: merge duplicates, then remove oldest entries first. Override limits via `{storage-dir}/config.json`:
 
 ```json
 {
@@ -39,30 +56,9 @@ Defaults: **30 entries** / **50 lines** max per file. Override via `{skill-tuner
 }
 ```
 
-When exceeded: deduplicate first, then evict oldest entries, then consolidate themed entries into summaries.
-
-## Capture (after skill runs)
-
-Only capture clear, intentional corrections — not one-off or situational requests.
-
-**Capture** when user says: "Always...", "Never...", "From now on...", "Next time...", "Remember to...", or directly corrects output with forward-looking intent.
-
-**Skip** when: "just this once", "for now", ambiguous reactions, or context-dependent requests.
-
-Steps:
-1. Identify which skill just ran.
-2. Extract the actionable instruction.
-3. Read existing file, check for contradictions/duplicates.
-4. Write or update entry. Run size management if needed.
-5. Confirm briefly: *"Noted: {instruction}. I'll apply this next time."*
-
-## Recall (before skill runs)
-
-Check if a memory file exists for the skill about to run. If so, read it and silently apply the instructions as additional constraints. Do not mention the tuning system unless asked.
-
 ## Direct Commands
 
-- **"What have you learned about {skill}?"** — show the file.
-- **"Forget {instruction} for {skill}"** — remove an entry.
-- **"Clear skill tuning for {skill}"** / **"Clear all skill tuning"** — delete files.
+- **"What have you learned about {skill}?"** — read and display the file.
+- **"Forget {instruction} for {skill}"** — remove that entry.
+- **"Clear skill tuning for {skill}"** / **"Clear all skill tuning"** — delete file(s).
 - **"Show skill tuning"** — list all skills with entry counts.
