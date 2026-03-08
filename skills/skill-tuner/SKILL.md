@@ -24,10 +24,9 @@ Store per-skill files at `$SKILL_TUNER_DIR/{skill-name}.md`. If the env var is u
 ## Learned
 
 - [YYYY-MM-DD] {concise, actionable instruction}
-- [YYYY-MM-DD] (replaces: {old date}) {updated instruction}
 ```
 
-Each entry is one line. If a new instruction contradicts an existing one, replace it. If it refines one, update in-place. Merge duplicates.
+Each entry is one line. If a new instruction contradicts an existing one, replace the old entry. If it refines one, update it in-place. Merge duplicates.
 
 ## Size Limits
 
