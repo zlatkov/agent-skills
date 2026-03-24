@@ -9,7 +9,7 @@ Skills are packaged instructions that extend agent capabilities. Each skill live
 | Skill | Description |
 |-------|-------------|
 | [ai-news](skills/ai-news) | Scan for the latest AI industry news on demand. Covers M&A, funding, product launches, model releases, AI engineering tools, research, regulation, partnerships, and open source. |
-| [memory-enhancer](skills/memory-enhancer) | Proactively capture preferences, corrections, decisions, and learned context into [OpenClaw](https://openclaw.ai) memory without explicit "remember this" triggers. |
+| [skilleval](skills/skilleval) | Evaluate agent skills (SKILL.md files) using [skilleval](https://github.com/zlatkov/skilleval) — tests trigger accuracy and compliance against LLM models. |
 
 ## Structure
 
@@ -17,7 +17,7 @@ Skills are packaged instructions that extend agent capabilities. Each skill live
 skills/
   ai-news/
     SKILL.md          # Skill definition and instructions
-  memory-enhancer/
+  skilleval/
     SKILL.md          # Skill definition and instructions
 ```
 
