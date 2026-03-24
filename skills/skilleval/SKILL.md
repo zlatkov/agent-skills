@@ -44,8 +44,8 @@ Before running skilleval, verify the setup:
    - `anthropic` — env var: `ANTHROPIC_API_KEY`
    - `openai` — env var: `OPENAI_API_KEY`
    - `google` — env var: `GOOGLE_GENERATIVE_AI_API_KEY`
-   - `azure` — env var: `AZURE_API_KEY`
-4. Check if the relevant API key env var is set. If not, ask the user to provide one or suggest they type `! export OPENROUTER_API_KEY=sk-...` to set it in this session.
+   - `azure` — env vars: `AZURE_API_KEY` **and** `AZURE_RESOURCE_NAME` (both required). Models are specified by **deployment name** (from Azure AI Foundry), not standard model IDs.
+4. Check if the relevant API key env var is set. If not, ask the user to provide one or suggest they type `! export OPENROUTER_API_KEY=sk-...` to set it in this session. For Azure, also verify `AZURE_RESOURCE_NAME` is set.
 
 ## Step 2: Build the Command
 
